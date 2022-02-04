@@ -1,0 +1,16 @@
+
+<script runat="server">
+ var apiKey = '5b2ff0b71e328e701ee577e3a153d32e';
+ var city = Platform.Request.GetQueryStringParameter('city');
+ var url = 'http://api.weatherstack.com/forecast?access_key='+apiKey+'&query='+city;
+ var weather= Platform.Function.HTTPGet(url);
+ var obj = Platform.Function.ParseJSON(weather);
+ Platform.Variable.SetValue('@city',city);
+ Platform.Variable.SetValue('@temp',obj.current.temperature);
+ Platform.Variable.SetValue('@feels',obj.current.feelslike)
+</script>
+%%[if not empty(@city) then]%%
+
+  The current Temperature is %%=v(@temp)=%% and it feels like %%=v(@feels)=%%
+
+%%[endif]%%
